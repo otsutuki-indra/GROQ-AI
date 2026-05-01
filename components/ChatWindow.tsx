@@ -2,7 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Send, Loader2, Zap } from 'lucide-react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface Message {
   id: string
@@ -20,7 +20,7 @@ export function ChatWindow({ onCodeGenerated }: ChatWindowProps) {
     {
       id: '0',
       role: 'assistant',
-      content: 'Hey 👋 I\'m HELLX_CODER. Send me code requests, questions, or problems. I\'ll generate solutions and show them in the preview panel.',
+      content: 'SYSTEM_READY: HELLX_CODER active. Send request.',
       timestamp: new Date(),
     },
   ])
@@ -32,7 +32,7 @@ export function ChatWindow({ onCodeGenerated }: ChatWindowProps) {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
-  }, [messages])
+  }, [messages, isLoading])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -64,27 +64,25 @@ export function ChatWindow({ onCodeGenerated }: ChatWindowProps) {
       const data = await response.json()
 
       const assistantMessage: Message = {
-        id: Date.now().toString() + '1',
+        id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: data.content,
+        content: data.content || 'ERROR: NULL_RESPONSE',
         timestamp: new Date(),
       }
 
       setMessages((prev) => [...prev, assistantMessage])
 
-      // Extract code from response if present
-      const codeMatch = data.content.match(/```(\w+)\n([\s\S]*?)```/)
+      const codeMatch = data.content?.match(/```(\w+)\n([\s\S]*?)```/)
       if (codeMatch) {
         onCodeGenerated(codeMatch[2].trim(), codeMatch[1])
       }
     } catch (error) {
-      console.error('Error:', error)
       setMessages((prev) => [
         ...prev,
         {
-          id: Date.now().toString() + '2',
+          id: 'err-' + Date.now(),
           role: 'assistant',
-          content: '❌ Error sending message. Please try again.',
+          content: 'CRITICAL_FAILURE: API_UNREACHABLE',
           timestamp: new Date(),
         },
       ])
@@ -94,91 +92,64 @@ export function ChatWindow({ onCodeGenerated }: ChatWindowProps) {
   }
 
   return (
-    <div className="glass-lg h-full flex flex-col overflow-hidden">
-      {/* Header */}
-      <div className="border-b border-white/10 px-6 py-4 flex items-center justify-between">
+    <div className="glass-lg h-full flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-black/20">
+      {/* Terminal Header */}
+      <div className="border-b border-white/10 px-6 py-4 flex items-center justify-between bg-white/5">
         <div className="flex items-center gap-2">
-          <Zap className="w-4 h-4 text-emerald-400" />
-          <h2 className="text-sm font-semibold text-white">Chat</h2>
+          <Zap className="w-4 h-4 text-emerald-400 fill-emerald-400/20" />
+          <h2 className="text-sm font-mono font-bold text-white uppercase tracking-tighter">Terminal_Output</h2>
         </div>
-        <div className="text-[10px] text-emerald-400/60 px-2 py-1 rounded bg-emerald-400/10 border border-emerald-400/20">
-          Live
+        <div className="flex items-center gap-2">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+          </span>
+          <span className="text-[10px] text-emerald-400 font-mono">ENCRYPTED_LINK</span>
         </div>
       </div>
 
-      {/* Messages Container */}
-      <div
-        ref={scrollRef}
-        className="flex-1 overflow-y-auto px-6 py-4 space-y-4"
-      >
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="space-y-4"
-        >
-          {messages.map((message, index) => (
+      {/* Message Feed */}
+      <div ref={scrollRef} className="flex-1 overflow-y-auto px-6 py-4 space-y-4 custom-scrollbar">
+        <AnimatePresence initial={false}>
+          {messages.map((msg) => (
             <motion.div
-              key={message.id}
+              key={msg.id}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.05 }}
-              className={`flex gap-3 ${
-                message.role === 'user' ? 'justify-end' : 'justify-start'
-              }`}
+              className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
             >
-              {message.role === 'assistant' && (
-                <div className="w-6 h-6 rounded-full glass flex items-center justify-center flex-shrink-0 mt-1">
-                  <Zap className="w-3 h-3 text-emerald-400" />
-                </div>
-              )}
-              <div
-                className={`max-w-xs px-4 py-3 rounded-lg text-sm leading-relaxed ${
-                  message.role === 'user'
-                    ? 'glass bg-emerald-400/10 border-emerald-400/30 text-white'
-                    : 'glass text-white/80'
-                }`}
-              >
-                <p className="whitespace-pre-wrap break-words font-mono text-xs">
-                  {message.content}
-                </p>
+              <div className={`max-w-[85%] px-4 py-2 rounded-lg text-xs font-mono border ${
+                msg.role === 'user'
+                  ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-200'
+                  : 'bg-white/5 border-white/10 text-zinc-300'
+              }`}>
+                {msg.content}
               </div>
             </motion.div>
           ))}
-        </motion.div>
-
+        </AnimatePresence>
         {isLoading && (
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="flex gap-3 items-center"
-          >
-            <div className="w-6 h-6 rounded-full glass flex items-center justify-center">
-              <Loader2 className="w-3 h-3 text-emerald-400 animate-spin" />
-            </div>
-            <div className="glass px-4 py-3 rounded-lg">
-              <p className="text-xs text-white/60">Thinking...</p>
-            </div>
-          </motion.div>
+          <div className="flex items-center gap-2 animate-pulse">
+            <Loader2 className="w-3 h-3 text-emerald-400 animate-spin" />
+            <span className="text-[10px] font-mono text-emerald-400/50 uppercase">Syncing...</span>
+          </div>
         )}
       </div>
 
-      {/* Input Area */}
-      <form
-        onSubmit={handleSubmit}
-        className="border-t border-white/10 px-6 py-4 flex gap-3"
-      >
+      {/* Input Field */}
+      <form onSubmit={handleSubmit} className="p-4 bg-white/5 border-t border-white/10 flex gap-2">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Ask me anything..."
+          placeholder="Execute command..."
+          className="flex-1 bg-black/40 border border-white/10 rounded-lg px-4 py-2 text-xs font-mono text-emerald-400 focus:outline-none focus:border-emerald-500/50 transition-all placeholder:text-zinc-700"
           disabled={isLoading}
-          className="flex-1 glass bg-black/30 px-4 py-3 text-sm text-white placeholder-white/40 focus:outline-none focus:ring-1 focus:ring-emerald-400/50 disabled:opacity-50"
         />
-        <button
-          type="submit"
+        <button 
+          type="submit" 
           disabled={isLoading || !input.trim()}
-          className="glass px-4 py-3 rounded-lg hover:bg-emerald-400/10 hover:border-emerald-400/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+          className="bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 px-3 py-2 rounded-lg transition-all disabled:opacity-20"
         >
           <Send className="w-4 h-4 text-emerald-400" />
         </button>
