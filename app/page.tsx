@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import { ChatWindow } from '@/components/ChatWindow'
-import { CodePreview } from '@/components/CodePreview'
+import { ChatWindow } from '../components/ChatWindow'
+import { CodePreview } from '../components/CodePreview'
 
 export default function Home() {
   const [code, setCode] = useState<string>('')
