@@ -2,61 +2,149 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --foreground-rgb: 0, 255, 65;
-  --background-start-rgb: 0, 0, 0;
-  --background-end-rgb: 0, 0, 0;
-}
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Urbanist:wght@600;700;800&display=swap');
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: rgb(var(--background-start-rgb));
+* {
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Main window overflow hidden for app-like feel */
+  box-sizing: border-box;
 }
 
-/* Custom Scrollbar for Terminal Look */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Aurora Mesh Gradient Background */
+@keyframes auroraFlow {
+  0% {
+    background-position: 0% 50%, 100% 50%, 50% 0%, 50% 100%;
+  }
+  25% {
+    background-position: 25% 45%, 75% 55%, 55% 5%, 45% 95%;
+  }
+  50% {
+    background-position: 50% 50%, 50% 50%, 45% 10%, 55% 90%;
+  }
+  75% {
+    background-position: 75% 55%, 25% 45%, 35% 15%, 65% 85%;
+  }
+  100% {
+    background-position: 0% 50%, 100% 50%, 50% 0%, 50% 100%;
+  }
+}
+
+@keyframes auroraGlow {
+  0%, 100% {
+    opacity: 0.3;
+    filter: blur(80px);
+  }
+  50% {
+    opacity: 0.6;
+    filter: blur(120px);
+  }
+}
+
+@keyframes gridPulse {
+  0%, 100% {
+    opacity: 0.03;
+  }
+  50% {
+    opacity: 0.08;
+  }
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 40%, rgba(5, 46, 22, 0.4) 0%, transparent 50%),
+    radial-gradient(circle at 80% 60%, rgba(5, 46, 22, 0.3) 0%, transparent 50%),
+    radial-gradient(circle at 50% 80%, rgba(5, 46, 22, 0.25) 0%, transparent 50%),
+    linear-gradient(135deg, #0a0e27 0%, #1a1a2e 50%, #0f0f1e 100%);
+  background-size: 400% 400%, 400% 400%, 400% 400%, 100% 100%;
+  animation: auroraFlow 15s ease-in-out infinite;
+  filter: hue-rotate(0deg);
+  pointer-events: none;
+}
+
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  background-image:
+    linear-gradient(0deg, transparent 24%, rgba(5, 46, 22, 0.05) 25%, rgba(5, 46, 22, 0.05) 26%, transparent 27%, transparent 74%, rgba(5, 46, 22, 0.05) 75%, rgba(5, 46, 22, 0.05) 76%, transparent 77%, transparent),
+    linear-gradient(90deg, transparent 24%, rgba(5, 46, 22, 0.05) 25%, rgba(5, 46, 22, 0.05) 26%, transparent 27%, transparent 74%, rgba(5, 46, 22, 0.05) 75%, rgba(5, 46, 22, 0.05) 76%, transparent 77%, transparent);
+  background-size: 60px 60px;
+  animation: gridPulse 8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+#__next {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  height: 100%;
+}
+
+/* Glassmorphic Container Base */
+.glass {
+  @apply backdrop-blur-md bg-black/20 border border-white/10 rounded-xl;
+}
+
+.glass-lg {
+  @apply backdrop-blur-lg bg-black/30 border border-white/15 rounded-2xl;
+}
+
+/* Gradient Text */
+.gradient-text {
+  @apply bg-gradient-to-r from-emerald-400 via-cyan-300 to-emerald-400 bg-clip-text text-transparent;
+}
+
+/* Smooth Scrollbar */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #000000;
+  background: rgba(5, 46, 22, 0.1);
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #004411;
-  border-radius: 0px;
+  background: rgba(5, 46, 22, 0.4);
+  border-radius: 10px;
+  border: 2px solid rgba(0, 0, 0, 0.5);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #00FF41;
+  background: rgba(5, 46, 22, 0.6);
 }
 
-/* Utility classes for the "Matrix" vibe */
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
-}
-
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-/* Animations */
-@keyframes pulse-soft {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.5; }
-}
-
-.animate-pulse-slow {
-  animation: pulse-soft 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* Selection highlight */
+/* Text Selection */
 ::selection {
-  background-color: #00FF41;
-  color: #000000;
+  background: rgba(5, 46, 22, 0.5);
+  color: #ffffff;
+}
+
+/* Focus Rings */
+:focus-visible {
+  @apply outline-2 outline-emerald-400/50 outline-offset-2;
+}
+
+/* Code Block Styling */
+code {
+  @apply font-mono text-sm;
+}
+
+pre {
+  @apply overflow-x-auto rounded-lg p-4 bg-black/40 border border-white/5;
 }
