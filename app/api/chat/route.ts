@@ -1,39 +1,41 @@
-import { NextRequest, NextResponse } from 'next/server';
+import Anthropic from '@anthropic-ai/sdk'
 
-export async function POST(req: NextRequest) {
+const client = new Anthropic()
+
+export async function POST(request: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages } = await request.json()
 
-    // Vercel Environment Variable
-    const apiKey = process.env.GROQ_API_KEY;
+    const response = await client.messages.create({
+      model: 'claude-3-5-sonnet-20241022',
+      max_tokens: 2048,
+      system: `You are HELLX STUDIO CODER, a direct expert assistant for code generation and debugging. You:
+- Answer code questions directly and concisely
+- Generate complete, production-ready code
+- Use markdown code blocks with language tags (e.g., \`\`\`javascript)
+- Provide explanations when needed but keep responses focused
+- Support JavaScript, TypeScript, Python, React, Node.js, and more
+- Always write clean, well-structured code
+- No unnecessary warnings or disclaimers
 
-    if (!apiKey) {
-      return NextResponse.json({ error: "API Key not found" }, { status: 500 });
+When generating code, always wrap it in markdown code blocks with the appropriate language tag.`,
+      messages: messages.map((msg: { role: string; content: string }) => ({
+        role: msg.role as 'user' | 'assistant',
+        content: msg.content,
+      })),
+    })
+
+    const content = response.content[0]
+    if (content.type !== 'text') {
+      throw new Error('Unexpected response type')
     }
 
-    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        model: 'llama-3.3-70b-versatile', // model
-        messages: [
-          {
-            role: 'system',
-            content: 'You are HELLX_CODER, an expert assistant. Output code in markdown blocks.'
-          },
-          ...messages
-        ],
-      }),
-    });
-
-    const data = await response.json();
-    return NextResponse.json({ content: data.choices[0].message.content });
-
+    return Response.json({ content: content.text })
   } catch (error) {
-    console.error("Groq API Error:", error);
-    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
+    console.error('API Error:', error)
+    return Response.json(
+      { error: 'Failed to process request' },
+      { status: 500 }
+    )
   }
 }
