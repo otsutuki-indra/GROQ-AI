@@ -4,28 +4,36 @@ export async function POST(req: NextRequest) {
   try {
     const { messages } = await req.json();
 
-    const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
-      method: "POST",
+    // Vercel Environment Variable
+    const apiKey = process.env.GROQ_API_KEY;
+
+    if (!apiKey) {
+      return NextResponse.json({ error: "API Key not found" }, { status: 500 });
+    }
+
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      method: 'POST',
       headers: {
-        "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
-        "Content-Type": "application/json",
+        'Authorization': `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        model: "llama3-70b-8192",
+        model: 'llama-3.3-70b-versatile', // model
         messages: [
-          { 
-            role: "system", 
-            content: "You are an Expert System Architect. Output ONLY clean, production-ready React code blocks using Tailwind CSS. No conversational filler. No explanations. Use dark themes for all UI components you generate." 
+          {
+            role: 'system',
+            content: 'You are HELLX_CODER, an expert assistant. Output code in markdown blocks.'
           },
-          ...messages,
+          ...messages
         ],
-        temperature: 0.1, 
       }),
     });
 
     const data = await response.json();
-    return NextResponse.json(data.choices[0].message);
+    return NextResponse.json({ content: data.choices[0].message.content });
+
   } catch (error) {
-    return NextResponse.json({ error: "Execution Failed" }, { status: 500 });
+    console.error("Groq API Error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
