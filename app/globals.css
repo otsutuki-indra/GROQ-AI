@@ -2,38 +2,38 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --background: #02040a;
+  --gemini-gray: #111111;
+}
+
 body {
-  background-color: #0a0a0a;
-  color: #ececec;
-  -webkit-font-smoothing: antialiased;
+  background-color: var(--background);
+  color: #e3e3e3;
+  overflow: hidden;
 }
 
-/* Gemini Style Card */
-.gemini-card {
-  background: #111111;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 28px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+/* Grok-style Floating Glow */
+.grok-glow {
+  position: absolute;
+  filter: blur(100px);
+  opacity: 0.15;
+  z-index: 0;
+  pointer-events: none;
 }
 
-/* Centered Input Area */
-.chat-input-container {
-  background: #1e1e1e;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 32px;
-  margin-bottom: 8px;
+/* Gemini-style Message Card */
+.message-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.chat-input-container:focus-within {
-  border-color: rgba(255, 255, 255, 0.2);
-  background: #252525;
+.message-card:hover {
+  background: rgba(255, 255, 255, 0.03);
 }
 
-/* Custom scrollbar for clean look */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 5px;
-}
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+/* Lag-free Blur */
+.glass-effect {
+  background: rgba(17, 17, 17, 0.7);
+  backdrop-filter: saturate(180%) blur(20px);
+  -webkit-backdrop-filter: saturate(180%) blur(20px);
 }
