@@ -12,13 +12,14 @@ export async function POST(req: Request) {
 
     if (!process.env.GROQ_API_KEY) {
       return NextResponse.json(
-        { content: "CRITICAL_ERROR: MISSING_API_KEY" },
+        { content: "SYSTEM_CRITICAL: MISSING_API_KEY" },
         { status: 500 }
       );
     }
 
+    // Using Llama-3.3-70b for maximum reasoning power
     const response = await groq.chat.completions.create({
-      model: "llama3-70b-8192", // Llama 3 for high reasoning
+      model: "llama-3.3-70b-versatile", 
       messages: [
         {
           role: "system",
@@ -32,8 +33,8 @@ export async function POST(req: Request) {
         },
         ...messages,
       ],
-      temperature: 0.2, // Low temperature for factual precision
-      max_tokens: 2048,
+      temperature: 0.2, // Precision focus
+      max_tokens: 4096, // Increased for complex logic
       top_p: 1,
       stream: false,
     });
@@ -43,8 +44,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ content: aiResponse });
   } catch (error: any) {
     console.error("GROQ_API_FAILURE:", error);
+    
+    // Handle specific decommissioned or rate limit errors
+    const errorMessage = error.message || "UNKNOWN_SYSTEM_ERROR";
     return NextResponse.json(
-      { content: `SYSTEM_FAILURE: ${error.message}` },
+      { content: `SYSTEM_FAILURE: ${errorMessage}` },
       { status: 500 }
     );
   }
