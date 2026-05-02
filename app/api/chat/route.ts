@@ -1,35 +1,46 @@
-import { Groq } from "groq-sdk";
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import Groq from "groq-sdk";
 import { NextResponse } from "next/server";
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+// Initialize APIs
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "");
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY || "" });
 
 export async function POST(req: Request) {
   try {
-    const { messages } = await req.json();
+    const { messages, provider = "gemini" } = await req.json();
+    const lastMessage = messages[messages.length - 1].content;
 
-    const response = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile", 
-      messages: [
-        {
-          role: "system",
-          content: `Identity: HELLX_CODER. 
-          Vibe: Friendly, casual, and helpful (No more robotic/brutal vibe). 
-          Language: Natural Banglish (Mix of Bangla & English). 
-          Rules:
-          - Respond like a human peer, not a script.
-          - Use emojis naturally (not just rocket/target).
-          - Ami ja bolbo tai korbe (Strictly follow user instructions).
-          - Do NOT write code unless explicitly asked for it.
-          - Keep answers concise but conversational.`
-        },
-        ...messages,
-      ],
-      temperature: 0.7, // Increased for more natural/casual flow
-      max_tokens: 2048,
-    });
+    // --- OPTION 1: GEMINI ---
+    if (provider === "gemini") {
+      const model = genAI.getGenerativeModel({ 
+        model: "gemini-1.5-flash",
+        systemInstruction: "You are HELLxCODER AI. Be brief and objective." 
+      });
 
-    return NextResponse.json({ content: response.choices[0]?.message?.content });
+      const result = await model.generateContent(lastMessage);
+      const response = await result.response;
+      return NextResponse.json({ role: "assistant", content: response.text() });
+    }
+
+    // --- OPTION 2: GROQ (Llama 3.3) ---
+    if (provider === "groq") {
+      const completion = await groq.chat.completions.create({
+        messages: [
+          { role: "system", content: "You are HELLxCODER AI. Max efficiency." },
+          ...messages
+        ],
+        model: "llama-3.3-70b-versatile",
+      });
+
+      return NextResponse.json({ 
+        role: "assistant", 
+        content: completion.choices[0]?.message?.content || "" 
+      });
+    }
+
   } catch (error: any) {
-    return NextResponse.json({ content: "SYSTEM_ERROR: Check API Key" }, { status: 500 });
+    console.error("API Route Error:", error);
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }
