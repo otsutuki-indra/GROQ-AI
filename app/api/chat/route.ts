@@ -1,41 +1,62 @@
-import Anthropic from '@anthropic-ai/sdk'
+let queue = Promise.resolve();
 
-const client = new Anthropic()
+export async function POST(req: Request) {
+  const { message } = await req.json();
 
-export async function POST(request: Request) {
-  try {
-    const { messages } = await request.json()
+  // Add request to queue (prevents parallel spam)
+  queue = queue.then(async () => {
+    try {
+      // Safety: check API key
+      if (!process.env.GROQ_API_KEY) {
+        return Response.json(
+          { reply: "Server misconfigured (no API key)" },
+          { status: 500 }
+        );
+      }
 
-    const response = await client.messages.create({
-      model: 'claude-3-5-sonnet-20241022',
-      max_tokens: 2048,
-      system: `You are HELLX STUDIO CODER, a direct expert assistant for code generation and debugging. You:
-- Answer code questions directly and concisely
-- Generate complete, production-ready code
-- Use markdown code blocks with language tags (e.g., \`\`\`javascript)
-- Provide explanations when needed but keep responses focused
-- Support JavaScript, TypeScript, Python, React, Node.js, and more
-- Always write clean, well-structured code
-- No unnecessary warnings or disclaimers
+      const res = await fetch(
+        "https://api.groq.com/openai/v1/chat/completions",
+        {
+          method: "POST",
+          headers: {
+            "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            model: "llama3-70b-8192",
+            messages: [
+              {
+                role: "user",
+                content: message,
+              },
+            ],
+          }),
+        }
+      );
 
-When generating code, always wrap it in markdown code blocks with the appropriate language tag.`,
-      messages: messages.map((msg: { role: string; content: string }) => ({
-        role: msg.role as 'user' | 'assistant',
-        content: msg.content,
-      })),
-    })
+      // Handle rate limit / API errors
+      if (!res.ok) {
+        return Response.json(
+          { reply: "⚠️ Rate limit hit. Try again in a few seconds." },
+          { status: 429 }
+        );
+      }
 
-    const content = response.content[0]
-    if (content.type !== 'text') {
-      throw new Error('Unexpected response type')
+      const data = await res.json();
+
+      const reply =
+        data?.choices?.[0]?.message?.content ||
+        "No response from model.";
+
+      return Response.json({ reply });
+
+    } catch (err) {
+      return Response.json(
+        { reply: "❌ Server error. Try again later." },
+        { status: 500 }
+      );
     }
+  });
 
-    return Response.json({ content: content.text })
-  } catch (error) {
-    console.error('API Error:', error)
-    return Response.json(
-      { error: 'Failed to process request' },
-      { status: 500 }
-    )
-  }
+  return queue;
 }

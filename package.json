@@ -1,32 +1,27 @@
+
 {
-  "name": "hellx-coder",
-  "version": "1.0.0",
-  "description": "Direct Expert Assistant with glassmorphic UI",
+  "name": "hellx_coder_maxed",
+  "version": "2.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "next start"
   },
   "dependencies": {
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "next": "^14.2.0",
-    "framer-motion": "^11.0.3",
-    "lucide-react": "^0.383.0",
-    "@anthropic-ai/sdk": "^0.24.1",
-    "tailwindcss": "^3.4.1",
-    "react-syntax-highlighter": "^15.5.0"
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "lucide-react": "latest",
+    "framer-motion": "latest",
+    "zustand": "latest",
+    "marked": "latest",
+    "prismjs": "latest"
   },
   "devDependencies": {
-    "@types/react": "^18.2.37",
-    "@types/react-dom": "^18.2.15",
-    "@types/node": "^20.8.10",
-    "typescript": "^5.2.2",
-    "@tailwindcss/forms": "^0.5.7",
-    "postcss": "^8.4.31",
-    "autoprefixer": "^10.4.16",
-    "@types/react-syntax-highlighter": "^15.5.13"
+    "tailwindcss": "^3.4.0",
+    "postcss": "^8.4.0",
+    "autoprefixer": "^10.4.0",
+    "typescript": "latest"
   }
 }
