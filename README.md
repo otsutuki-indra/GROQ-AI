@@ -1,34 +1,50 @@
-# ✦ HELLX CODER — AI COMPILER 🎯
+<div align="center">
 
-**HELLX CODER** is a premium, high-performance AI chat interface designed for maximum efficiency and brutal objectivity. Built with a space-nebula aesthetic, it features a dual-engine backend (Gemini + Groq) to deliver instant code generation and technical solutions.
+# ✦ HELLX CODER 🎯
+### *Next-Gen AI Compiler & Professional Workspace*
 
----
-
-## ✨ KEY FEATURES
-
-*   **Dual-Engine Power:** Integrated with **Gemini 1.5 Flash** and **Groq (Llama 3.3)** for lightning-fast responses.
-*   **Space Nebula UI:** A minimalist, glassmorphic design inspired by deep space aesthetics.
-*   **Real-time Preview:** Dedicated side-by-side code preview window with high-end syntax highlighting.
-*   **Custom ✦ Cursor:** A unique star-shaped cursor tracking system for a tailored user experience.
-*   **Responsive Layout:** Automatically switches between single-column chat and dual-column workspace.
+[![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-blue?style=for-the-badge&logo=tailwind-css)](https://tailwindcss.com/)
+[![Vercel](https://img.shields.io/badge/Vercel-Deployed-white?style=for-the-badge&logo=vercel)](https://vercel.com/)
+[![Status](https://img.shields.io/badge/Status-Active-green?style=for-the-badge)](https://github.com/)
 
 ---
 
-## 🛠️ TECH STACK
+<p align="center">
+  <img src="https://raw.githubusercontent.com/username/repo/main/public/theme_3.jpg" width="800" alt="Hellx Coder Interface" style="border-radius: 20px; border: 1px solid #333;">
+</p>
 
-| Component | Technology |
-| :--- | :--- |
-| **Frontend** | Next.js 14 (App Router) |
-| **Styling** | Tailwind CSS + Framer Motion |
-| **State Management** | Zustand |
-| **AI Models** | Google Gemini 1.5 & Groq Llama 3.3 |
-| **Icons** | Lucide React |
+</div>
+
+## 🌌 THE PHILOSOPHY
+**HELLX CODER** is not just a chatbot; it's a **High-Fidelity AI Workspace**. Designed with a mix of brutalist efficiency and deep-space aesthetics, it provides a seamless bridge between thought and code. 
 
 ---
 
-## 🚀 GETTING STARTED
+## 💎 PREMIUM FEATURES
 
-### 1. Clone the repository
-```bash
-git clone [https://github.com/yourusername/hellxcoder.git](https://github.com/yourusername/hellxcoder.git)
-cd hellxcoder
+*   **⚡ Dual-Engine Hybrid:** 
+    *   **Gemini 1.5 Flash** for deep reasoning and code logic.
+    *   **Groq Llama 3.3** for instantaneous text generation.
+*   **🎨 Glassmorphic UI:** 
+    *   Ultra-modern blur effects and high-saturation surfaces.
+    *   **Inter** for professional interface text.
+    *   **JetBrains Mono** for technical code clarity.
+*   **✨ Interactive Experience:**
+    *   Custom `✦` Star Cursor tracking.
+    *   Side-by-side **Live Code Preview**.
+    *   Animated Nebula backgrounds.
+
+---
+
+## 🛠️ TECH STACK OVERVIEW
+
+| Layer | Technology | Role |
+| :--- | :--- | :--- |
+| **Framework** | `Next.js 14` | Core Infrastructure |
+| **Animation** | `Framer Motion` | Fluid UI Transitions |
+| **Logic** | `Zustand` | Global State Management |
+| **Intelligence** | `GenAI + Groq` | Backend Brains |
+| **Icons** | `Lucide` | Minimalist Visuals |
+
+---
