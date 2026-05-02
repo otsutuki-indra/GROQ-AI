@@ -9,34 +9,32 @@ export default function Home() {
   const { code } = useStore()
 
   return (
-    <div className="relative flex flex-col h-screen overflow-hidden font-sans">
-      {/* Grok-style Animated Background */}
-      <div className="absolute inset-0 z-0 overflow-hidden">
-        <div className="grok-glow top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-600 rounded-full animate-pulse" />
-        <div className="grok-glow bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-purple-600 rounded-full animate-pulse [animation-delay:2s]" />
-      </div>
+    <div className="relative h-screen w-full flex flex-col overflow-hidden">
+      <div className="space-bg" />
+      
+      <header className="h-16 flex items-center px-10 z-20">
+        <h1 className="text-lg font-light tracking-[0.2em] text-white/60">
+          HELLX <span className="text-white font-medium">CODER</span>
+        </h1>
+      </header>
 
-      {/* Centered Workspace */}
-      <main className="relative z-10 flex-1 flex justify-center items-center p-4 md:p-8">
+      <main className="flex-1 flex justify-center items-center p-6 z-10">
         <motion.div 
           layout
-          className={`flex gap-6 h-full w-full transition-all duration-500 ${
-            code ? 'max-w-[1600px]' : 'max-w-[900px]'
+          className={`flex gap-6 h-full w-full transition-all duration-700 ease-in-out ${
+            code ? 'max-w-[1600px]' : 'max-w-[850px]'
           }`}
         >
-          {/* Chat Panel */}
           <div className="flex-1 h-full min-w-0">
             <ChatWindow />
           </div>
 
-          {/* Code Preview Panel (Grok Animation) */}
           <AnimatePresence>
             {code && (
               <motion.div 
-                initial={{ opacity: 0, x: 50, scale: 0.95 }}
+                initial={{ opacity: 0, x: 100, scale: 0.9 }}
                 animate={{ opacity: 1, x: 0, scale: 1 }}
-                exit={{ opacity: 0, x: 50, scale: 0.95 }}
-                transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                exit={{ opacity: 0, x: 100, scale: 0.9 }}
                 className="flex-1 h-full min-w-0"
               >
                 <CodePreview code={code} language="typescript" />
