@@ -1,14 +1,32 @@
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background: radial-gradient(circle at 20% 20%, #022c22, #020617);
-  color: white;
-  overflow: hidden;
+:root {
+  --font-mono: 'JetBrains Mono', monospace;
 }
-.glass {
-  background: rgba(255,255,255,0.05);
-  backdrop-filter: blur(20px);
+
+body {
+  background: radial-gradient(circle at top right, #064e3b 0%, transparent 25%),
+              radial-gradient(circle at bottom left, #1e1b4b 0%, transparent 25%),
+              #020617;
+}
+
+.glass-lg {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(16, 185, 129, 0.3);
 }
