@@ -3,37 +3,45 @@
 @tailwind utilities;
 
 :root {
-  --nebula-deep: #02040a;
-  --nebula-glow: rgba(28, 41, 77, 0.4);
+  --cursor: '✦';
+}
+
+* {
+  cursor: none !important; /* Hide default cursor */
 }
 
 body {
-  background: radial-gradient(circle at 50% 50%, #0a0f1e 0%, #020408 100%);
+  background: radial-gradient(circle at center, #0d1224 0%, #020408 100%);
   color: #e2e8f0;
   overflow: hidden;
   font-family: 'Inter', sans-serif;
 }
 
-/* Animated Space Background */
-.space-bg {
+/* Custom Cursor Follower */
+.custom-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  color: white;
+  font-size: 20px;
+  transform: translate(-50%, -50%);
+  transition: transform 0.1s ease-out;
+}
+
+/* Nebula Background Animation */
+.nebula-bg {
   position: fixed;
   inset: 0;
-  background: 
-    radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.1) 0%, transparent 40%),
-    radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.1) 0%, transparent 40%);
+  background-image: url('/theme_2.jpg'); /* Using your provided theme file */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
   z-index: -1;
 }
 
-/* Glassmorphism for Gemini Windows */
-.glass-panel {
-  background: rgba(13, 17, 23, 0.6);
-  backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
-}
-
-.custom-scrollbar::-webkit-scrollbar { width: 4px; }
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 10px;
+.glass-window {
+  background: rgba(10, 10, 20, 0.4);
+  backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 32px;
 }
