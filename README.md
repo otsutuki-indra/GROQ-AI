@@ -1,30 +1,34 @@
-<a href="https://www.llamacoder.io">
-  <img alt="Llama Coder" src="./public/og-image.png">
-  <h1 align="center">Llama Coder</h1>
-</a>
+# ✦ HELLX CODER — AI COMPILER 🎯
 
-<p align="center">
-  An open source Claude Artifacts – generate small apps with one prompt. Powered by Llama 3 on Together.ai.
-</p>
+**HELLX CODER** is a premium, high-performance AI chat interface designed for maximum efficiency and brutal objectivity. Built with a space-nebula aesthetic, it features a dual-engine backend (Gemini + Groq) to deliver instant code generation and technical solutions.
 
-## Tech stack
+---
 
-- [Llama 3.1 405B](https://ai.meta.com/blog/meta-llama-3-1/) from Meta for the LLM
-- [Together AI](https://togetherai.link/?utm_source=llamacoder&utm_medium=referral&utm_campaign=example-app) for LLM inference
-- [Sandpack](https://sandpack.codesandbox.io/) for the code sandbox
-- Next.js app router with Tailwind
-- Helicone for observability
-- Plausible for website analytics
+## ✨ KEY FEATURES
 
-## Cloning & running
+*   **Dual-Engine Power:** Integrated with **Gemini 1.5 Flash** and **Groq (Llama 3.3)** for lightning-fast responses.
+*   **Space Nebula UI:** A minimalist, glassmorphic design inspired by deep space aesthetics.
+*   **Real-time Preview:** Dedicated side-by-side code preview window with high-end syntax highlighting.
+*   **Custom ✦ Cursor:** A unique star-shaped cursor tracking system for a tailored user experience.
+*   **Responsive Layout:** Automatically switches between single-column chat and dual-column workspace.
 
-1. Clone the repo: `git clone https://github.com/Nutlope/llamacoder`
-2. Create a `.env` file and add your API keys:
-   - **[Together AI API key](https://dub.sh/together-ai/?utm_source=example-app\&utm_medium=llamacoder\&utm_campaign=llamacoder-app-signup)**: `TOGETHER_API_KEY=<your_together_ai_api_key>`
-   - **[CSB API key](https://codesandbox.io/signin)**: `CSB_API_KEY=<your_csb_api_key>`
-   - **Database URL**: Use [Neon](https://neon.tech) to set up your PostgreSQL database and add the Prisma connection string: `DATABASE_URL=<your_database_url>`
-3. Run `npm install` and `npm run dev` to install dependencies and run locally
+---
 
-## Contributing
+## 🛠️ TECH STACK
 
-For contributing to the repo, please see the [contributing guide](./CONTRIBUTING.md)
+| Component | Technology |
+| :--- | :--- |
+| **Frontend** | Next.js 14 (App Router) |
+| **Styling** | Tailwind CSS + Framer Motion |
+| **State Management** | Zustand |
+| **AI Models** | Google Gemini 1.5 & Groq Llama 3.3 |
+| **Icons** | Lucide React |
+
+---
+
+## 🚀 GETTING STARTED
+
+### 1. Clone the repository
+```bash
+git clone [https://github.com/yourusername/hellxcoder.git](https://github.com/yourusername/hellxcoder.git)
+cd hellxcoder
