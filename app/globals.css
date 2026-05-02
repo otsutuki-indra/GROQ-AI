@@ -3,37 +3,37 @@
 @tailwind utilities;
 
 :root {
-  --background: #02040a;
-  --gemini-gray: #111111;
+  --nebula-deep: #02040a;
+  --nebula-glow: rgba(28, 41, 77, 0.4);
 }
 
 body {
-  background-color: var(--background);
-  color: #e3e3e3;
+  background: radial-gradient(circle at 50% 50%, #0a0f1e 0%, #020408 100%);
+  color: #e2e8f0;
   overflow: hidden;
+  font-family: 'Inter', sans-serif;
 }
 
-/* Grok-style Floating Glow */
-.grok-glow {
-  position: absolute;
-  filter: blur(100px);
-  opacity: 0.15;
-  z-index: 0;
-  pointer-events: none;
+/* Animated Space Background */
+.space-bg {
+  position: fixed;
+  inset: 0;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(124, 58, 237, 0.1) 0%, transparent 40%);
+  z-index: -1;
 }
 
-/* Gemini-style Message Card */
-.message-card {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+/* Glassmorphism for Gemini Windows */
+.glass-panel {
+  background: rgba(13, 17, 23, 0.6);
+  backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
 }
 
-.message-card:hover {
-  background: rgba(255, 255, 255, 0.03);
-}
-
-/* Lag-free Blur */
-.glass-effect {
-  background: rgba(17, 17, 17, 0.7);
-  backdrop-filter: saturate(180%) blur(20px);
-  -webkit-backdrop-filter: saturate(180%) blur(20px);
+.custom-scrollbar::-webkit-scrollbar { width: 4px; }
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
 }
