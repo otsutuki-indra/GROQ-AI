@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import type { Config } from "tailwindcss"
 
 const config: Config = {
   content: [
@@ -11,8 +11,17 @@ const config: Config = {
         sans: ['var(--font-inter)'],
         mono: ['var(--font-mono)'],
       },
+      colors: {
+        background: '#020408',
+        foreground: '#ffffff',
+        glass: 'rgba(15, 23, 42, 0.4)',
+      },
+      spacing: {
+        'safe': 'max(1rem, env(safe-area-inset-left))',
+      },
     },
   },
   plugins: [],
-};
-export default config;
+}
+
+export default config
