@@ -1,9 +1,22 @@
-
 import { create } from 'zustand'
 
-export const useStore = create((set) => ({
-  messages: [],
-  code: "",
-  addMessage: (m:any) => set((s:any)=>({messages:[...s.messages,m]})),
-  setCode: (c:string)=>set({code:c})
+interface Message {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+interface ChatStore {
+  messages: Message[]
+  code: string
+  language: string
+  addMessage: (message: Message) => void
+  setCode: (code: string, language: string) => void
+}
+
+export const useStore = create<ChatStore>((set) => ({
+  messages: [{ role: 'assistant', content: 'SYSTEM_READY: HELLX_CODER active.' }],
+  code: '',
+  language: 'typescript',
+  addMessage: (message) => set((state) => ({ messages: [...state.messages, message] })),
+  setCode: (code, language) => set({ code, language }),
 }))
