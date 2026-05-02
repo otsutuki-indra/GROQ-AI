@@ -1,13 +1,21 @@
+'use client'
 import './globals.css'
-import { Inter, JetBrains_Mono } from 'next/font/google'
-
-const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
-const mono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
+import { useEffect, useState } from 'react'
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  const [pos, setPos] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const handleMove = (e: MouseEvent) => setPos({ x: e.clientX, y: e.clientY })
+    window.addEventListener('mousemove', handleMove)
+    return () => window.removeEventListener('mousemove', handleMove)
+  }, [])
+
   return (
-    <html lang="en" className="dark">
-      <body className={`${inter.variable} ${mono.variable} font-sans bg-[#020617] text-zinc-200 antialiased`}>
+    <html lang="en">
+      <body>
+        <div className="custom-cursor" style={{ left: pos.x, top: pos.y }}>✦</div>
+        <div className="nebula-bg" />
         {children}
       </body>
     </html>
