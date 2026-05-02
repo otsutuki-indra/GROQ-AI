@@ -1,6 +1,6 @@
 <div align="center">
 
-# ✦ HELLX CODER 🎯
+# ✦ HELLxCODER 🎯
 ### *Next-Gen AI Compiler & Professional Workspace*
 
 [![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
@@ -17,7 +17,7 @@
 </div>
 
 ## 🌌 THE PHILOSOPHY
-**HELLX CODER** is not just a chatbot; it's a **High-Fidelity AI Workspace**. Designed with a mix of brutalist efficiency and deep-space aesthetics, it provides a seamless bridge between thought and code. 
+**HELLxCODER** is not just a chatbot; it's a **High-Fidelity AI Workspace**. Designed with a mix of brutalist efficiency and deep-space aesthetics, it provides a seamless bridge between thought and code. 
 
 ---
 
