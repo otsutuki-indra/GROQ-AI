@@ -45,3 +45,24 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 32px;
 }
+
+/* Code Window Specific Styles */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 100px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Syntax Highlighting Tweaks for Space Theme */
+pre code {
+  background: transparent !important;
+  text-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
+}
