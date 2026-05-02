@@ -1,12 +1,18 @@
+import type { Config } from "tailwindcss";
 
-module.exports = {
-  content: ["./app/**/*.{js,ts,jsx,tsx}"],
+const config: Config = {
+  content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
+    "./app/**/*.{js,ts,jsx,tsx,mdx}",
+  ],
   theme: {
     extend: {
-      colors: {
-        glass: "rgba(255,255,255,0.06)"
-      }
-    }
+      animation: {
+        'pulse-slow': 'pulse 8s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+      },
+    },
   },
-  plugins: []
-}
+  plugins: [],
+};
+export default config;
